@@ -1,0 +1,24 @@
+name: scp files
+on:
+  push:
+    branches: [staging-site]
+jobs:
+  build:
+    name: Deployment and Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: npm install and npm run build (Theme)
+        run: |
+          composer install
+          npm install
+          npm run build
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST_STAGING }}
+          username: ${{ secrets.USERNAME_STAGING }}
+          password: ${{ secrets.PASSWORD_STAGING }}
+          port: ${{ secrets.PORT_STAGING }}
+          source: "./"
+          target: ${{ secrets.TARGET_STAGING }}

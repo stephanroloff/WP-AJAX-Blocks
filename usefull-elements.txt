@@ -1,0 +1,1 @@
+<img class="accordion-arrow" src="<?php echo MY_PLUGIN_PATH . "src/blocks/jobs-accordion/assets/pfeil_accordion.png"; ?>" alt="no-arrow">
