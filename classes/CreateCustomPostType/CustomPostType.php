@@ -139,6 +139,7 @@ if(! class_exists('CreateCustomPostType\CustomPostType')){
         function get_post_meta_data($post_id, $key_metadata){
             return get_post_meta( $post_id, $key_metadata, true );
         }
+        
         function delete_post_meta_data($post_id, $key_metadata){
             return delete_post_meta( $post_id, $key_metadata );
         }
@@ -188,6 +189,7 @@ if(! class_exists('CreateCustomPostType\CustomPostType')){
             update_post_meta( $post_id, $key_metadata, $post_meta );
         }
 
+        //all
         function get_all_post_meta_data($post_id){
             $all_meta = get_post_meta($post_id);
             return $all_meta;

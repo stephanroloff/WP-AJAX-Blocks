@@ -1,0 +1,81 @@
+
+---------------AJAX POST------------------ 
+
+POST BACKEND
+
+1- Crear una instancia de PostToDatabase.
+
+$PostToDatabase = new PostToDatabase('myFunction', 'post_data_to_db');
+
+'myFunction'=> Nombre de la funcion callback en donde se procesaran los datos que lleguen del frontend.
+               aqui se decide que se hace con los datos, por ejemplo en que parte de la base de datos se guardaran (user_meta o post_meta, etc).
+
+'post_data_to_db'=> Server Action Name: Es un nombre unico para distinguir la conexion backend-frontend. 
+                    Para que los datos en frontend sepan a que funcion en el backend deben dirigirse y viceversa.
+
+no olvidar importar el archivo donde se encuentre la funcion 'myFunction'
+
+include __DIR__ . '/callback.php';
+
+
+POST FRONTEND
+
+1- La funcion send_data_to_backend(), enviara los datos al backend, primero ha y importarla junto con "ResponseComponent":
+
+import { ResponseComponent } from "./ResponseComponent.js";
+import { send_data_to_backend } from "../ajax-post.js";
+
+y sus argumentos son los siguientes:
+
+send_data_to_backend('post_data_to_db', dataObject, ResponseComponent, 'response');
+
+'post_data_to_db'=> Server Action Name: Es un nombre unico para distinguir la conexion backend-frontend. 
+                    Para que los datos en frontend sepan a que funcion en el backend deben dirigirse y viceversa.
+
+dataObject => Un objeto que contiene todos los datos que deben ser enviados al backend. Tiene que ser si o si un objeto.
+ResponseComponent => Componente react que define como se van a presentar los datos en el frontend de la respuesta cuando se reciban los datos.
+                     Esta respuesta nace de los "echo" en el archivo callback.php
+'response' => id del div, el cual sirve como referencia para posicionar adentro al componente TestComponent. Este div se encuentra en el archivo render.php
+
+
+
+
+---------------AJAX GET------------------ 
+
+GET BACKEND
+
+1- En algun archivo php crear una nueva instancia de SendDataToFrontend:
+
+El valor del segundo argumento (string) 
+
+$SendDataToFrontend = new SendDataToFrontend($all_meta, 'send_data_to_frontend');
+
+debe ser exactamente igual al valor de data.action en el frontend
+
+function ajax_start() {
+    jQuery(document).ready(function($) {
+        $.ajax({
+            url: my_script_vars.ajax_url,
+            type: 'get',
+            data: {
+                action: 'send_data_to_frontend', 
+            },
+
+$all_meta => Son los datos que se quieren enviar al frontend.
+
+
+
+GET FRONTEND
+
+1- En src en los bloques del editor, importar ajax_start, TestComponent.
+
+import { ajax_start } from "../ajax-get.js";
+import { TestComponent } from "./TestComponent.js";
+
+ajax_start('send_data_to_frontend', TestComponent, 'ajax-get-from-db');
+
+'send_data_to_frontend' => Server Action Name: Valor definido anteriormente en el archivo php, en la instancia SendDataToFrontend. Es un nombre unico para distinguir la conexion backend-frontend
+TestComponent => Componente react que define como se van a presentar los datos en el frontend
+'ajax-get-from-db' => id del div, el cual sirve como referencia para posicionar adentro al componente TestComponent. Este div se encuentra en el archivo render.php
+
+Todos estos nombres debes ser unicos y no deben repetirse con otras instancias, sino habrán errores.

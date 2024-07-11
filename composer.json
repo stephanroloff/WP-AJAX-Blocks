@@ -4,7 +4,9 @@
         "psr-4": {
             "WpRestApi\\": "classes/",
             "OtherNamespace\\": "classes/OtherFile",
-            "CreateCustomPostType\\": "classes/CreateCustomPostType"
+            "CreateCustomPostType\\": "classes/CreateCustomPostType",
+            "User\\": "classes/User",
+            "Ajax\\": "classes/Ajax"
         }
     },
     "require": {}
